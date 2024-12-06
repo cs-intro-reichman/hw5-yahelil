@@ -39,21 +39,15 @@ public class MyString {
      */
     public static boolean subsetOf(String str1, String str2) {
         int index = 0;
-        for (int i = 0; i<str2.length();i++){
-            if (str1.charAt(0) == str2.charAt(i)){
-                while(index<str1.length()){
-                    if (str1.charAt(index) != str2.charAt(i+index)){
-                        break;
-                    }
-                    index++;
-                }
-                if (index == str1.length()){
-                    return true; // if the while loop reached the end without a break
-                }
-                index = 0;
+        for (int i = 0; i<str1.length();i++){
+            if (countChar(str1, str1.charAt(i)) != countChar(str2, str1.charAt(i))){
+                break;
+            }
+            if (i == str1.length()){
+                return true; // if the while loop reached the end without a break
             }
         }
-        return false; //if all the whle loops reached break
+        return false;
     }
 
     /** Returns a string which is the same as the given string, with a space
@@ -65,8 +59,11 @@ public class MyString {
      * @return a string consisting of the characters of str, separated by spaces.
      */
     public static String spacedString(String str) {
-        String spaced_string = "";
-        for (int i = 0; i<str.length();i++){
+        if (str.isEmpty()){
+            return "";
+        }
+        String spaced_string = "" + str.charAt(0);
+        for (int i = 1; i<str.length();i++){
             spaced_string += (" " + str.charAt(i));
         }
         return spaced_string;
