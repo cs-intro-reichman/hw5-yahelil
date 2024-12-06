@@ -106,6 +106,7 @@ public class MyString {
                     break;
                 }
             }
+            i++;
         }
         return new_str.toString();
     }
