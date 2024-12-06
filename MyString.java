@@ -39,11 +39,11 @@ public class MyString {
      */
     public static boolean subsetOf(String str1, String str2) {
         int index = 0;
-        for (int i = 0; i<str1.length();i++){
-            if (countChar(str1, str1.charAt(i)) != countChar(str2, str1.charAt(i))){
+        for (int i = 0; i<str2.length();i++){
+            if (countChar(str1, str2.charAt(i)) > countChar(str2, str2.charAt(i))){
                 break;
             }
-            if (i == str1.length()){
+            if (i+1 == str2.length()){
                 return true; // if the while loop reached the end without a break
             }
         }
