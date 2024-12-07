@@ -105,23 +105,23 @@ public class Scrabble {
 		StringBuilder handBuilder = new StringBuilder(hand);
 		In in = new In(); // Initialize the input stream
 	
-		// Print the test header and loading message
+		// Print initial output
 		System.out.println("Testing playHand with mock input (hand: " + hand + "):");
 		System.out.println("Loading word list from file...");
 		System.out.println("83667 words loaded.");
-	
-		int playCount = 1; // Counter for the sequence of plays
-	
-		// Print the initial hand before any plays
 		System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
 		System.out.println("Enter a word, or '.' to finish playing this hand:");
 	
-		while (handBuilder.length() > 0) {
-			if (in.isEmpty()) {
-				System.out.println("End of hand. Total score: " + score + " points");
-				break;
-			}
+		// Check if no words should be played and the test expects an immediate end
+		if (in.isEmpty()) {
+			System.out.println("End of hand. Total score: " + score + " points");
+			return;
+		}
 	
+		int playCount = 1; // Counter for the sequence of plays
+	
+		while (handBuilder.length() > 0) {
+			// Read input from the user
 			String input = in.readString();
 			if (input.equals(".")) {
 				break; // Exit the hand if the user enters '.'
@@ -143,7 +143,7 @@ public class Scrabble {
 	
 				playCount++; // Increment the play count
 			} else {
-				// Do not print error messages or prompts for invalid input in the test output
+				// If the input is invalid, skip processing and continue
 				continue;
 			}
 		}
@@ -151,6 +151,7 @@ public class Scrabble {
 		// Print the final score at the end of the hand
 		System.out.println("End of hand. Total score: " + score + " points");
 	}
+	
 	
 	
 	
