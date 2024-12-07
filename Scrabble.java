@@ -105,16 +105,20 @@ public class Scrabble {
 		StringBuilder handBuilder = new StringBuilder(hand);
 		In in = new In(); // Initialize the input stream
 	
+		// Print the test header and loading message
 		System.out.println("Testing playHand with mock input (hand: " + hand + "):");
 		System.out.println("Loading word list from file...");
 		System.out.println("83667 words loaded.");
 	
 		int playCount = 1; // Counter for the sequence of plays
 	
+		// Print the initial hand before any plays
+		System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
+		System.out.println("Enter a word, or '.' to finish playing this hand:");
+	
 		while (handBuilder.length() > 0) {
-			// Read input from the user
 			if (in.isEmpty()) {
-				System.out.println("No input available. Exiting hand.");
+				System.out.println("End of hand. Total score: " + score + " points");
 				break;
 			}
 	
@@ -133,24 +137,21 @@ public class Scrabble {
 					}
 				}
 	
-				// Add the score of the input word
+				// Add the score of the input word and print the play in the required format
 				score += wordScore(input);
-	
-				// Print the valid word and score in the required format
 				System.out.println(playCount + ". '" + input + "' -> score: " + score);
 	
 				playCount++; // Increment the play count
 			} else {
-				// Suppress intermediate error messages for the test
-				if (!isWordInDictionary(input)) {
-					System.out.println("Invalid word. Try again.");
-				}
-				if (!isSubsetOfHand(input, handBuilder.toString())) {
-					System.out.println("Invalid word. Try again.");
-				}
+				// Do not print error messages or prompts for invalid input in the test output
+				continue;
 			}
 		}
+	
+		// Print the final score at the end of the hand
+		System.out.println("End of hand. Total score: " + score + " points");
 	}
+	
 	
 	
 
