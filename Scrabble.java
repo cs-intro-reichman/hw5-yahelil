@@ -102,18 +102,18 @@ public class Scrabble {
 		In in = new In(); // Initialize the input stream
 	
 		System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
-		System.out.println("Enter a word, or '.' to finish playing this hand:");
-
-		System.out.println("End of hand. Total score: " + score + " points");
-
 	
-		// Main loop for processing input and valid words
+		// Loop to handle user input until the user enters '.'
 		while (handBuilder.length() > 0) {
+			System.out.println("Enter a word, or '.' to finish playing this hand:");
 			String input = in.readString();
+			
 			if (input.equals(".")) {
-				break; // Exit if the user enters '.'
+				// Exit if the user enters '.'
+				break;
 			}
 	
+			// Check if the word is valid and can be formed from the hand
 			if (isWordInDictionary(input) && isSubsetOfHand(input, handBuilder.toString())) {
 				// Remove letters used in the input word from the hand
 				for (char c : input.toCharArray()) {
@@ -123,17 +123,18 @@ public class Scrabble {
 					}
 				}
 	
-				// Update the score and print the play
+				// Update the score with the word score
 				score += wordScore(input);
-				System.out.println("End of hand. Total score: " + score + " points");
-				break; // Exit after processing one valid word for this test
+			} else {
+				System.out.println("Invalid word. Please try again.");
 			}
+	
+			// Print the current state of the hand after each valid play
+			System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
 		}
 	
-		// Ensure the end-of-hand message is printed if the hand ends without processing words
-		if (handBuilder.length() == 0 && score == 0) {
-			System.out.println("End of hand. Total score: " + score + " points");
-		}
+		// Print the final total score when the hand ends
+		System.out.println("End of hand. Total score: " + score + " points");
 	}
 	
 
@@ -174,6 +175,7 @@ public class Scrabble {
 	}
 
 	public static void main(String[] args) { 
+		testPlayHands();
 		playGame();
 	}
 	
@@ -203,6 +205,6 @@ public class Scrabble {
 		init();
 		//playHand("ocostrza");
 		//playHand("arbffip");
-		//playHand("aretiin");
+		playHand("aretiin");
 	}
 }
