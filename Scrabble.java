@@ -103,12 +103,9 @@ public class Scrabble {
 	
 		System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
 		System.out.println("Enter a word, or '.' to finish playing this hand:");
-	
-		// If the input stream is empty, print the end of hand message and exit
-		if (in.isEmpty()) {
-			System.out.println("End of hand. Total score: " + score + " points");
-			return; // Exit without processing any input
-		}
+
+		System.out.println("End of hand. Total score: " + score + " points");
+
 	
 		// Main loop for processing input and valid words
 		while (handBuilder.length() > 0) {
