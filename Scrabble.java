@@ -67,9 +67,10 @@ public class Scrabble {
 		if (word.length() == HAND_SIZE){
 			score += 50;
 		}
-		if (word.contains("runi")){
+		if (isSubsetOfHand(word, "runi")){
 			score += 1000;
 		}
+		score = score * word.length();
 		System.out.print(word + " earned " + score + " points.");
 		return score;
 	}
@@ -135,6 +136,7 @@ public class Scrabble {
 				hand = hand.substring(0, index) + hand.substring(index + 1);
 			}
 			score += wordScore(input);
+			HAND_SIZE -= input.length();
 			System.out.println(" Score: " + score + " points");
 		}
 		if (hand.length() == 0) {
@@ -181,6 +183,7 @@ public class Scrabble {
 	}
 
 	public static void main(String[] args) { 
+		testScrabbleScore();
 		playGame();
 	}
 	
@@ -194,8 +197,9 @@ public class Scrabble {
 	}
 	
 	public static void testScrabbleScore() {
-		System.out.println(wordScore("bee"));	
-		System.out.println(wordScore("babe"));
+		System.out.println(wordScore("cat"));	
+		System.out.println(wordScore("dog"));
+		System.out.println(wordScore("quiz"));
 		System.out.println(wordScore("friendship"));
 		System.out.println(wordScore("running"));
 	}
