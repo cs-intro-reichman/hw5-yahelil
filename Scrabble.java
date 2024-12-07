@@ -99,40 +99,42 @@ public class Scrabble {
     // 1. The letters in the word are removed from the hand, which becomes smaller.
     // 2. The user gets the Scrabble points of the entered word.
     // 3. The user is prompted to enter another word, or '.' to end the hand. 
-    public static void playHand(String hand) {
-        int score = 0;
-        StringBuilder handBuilder = new StringBuilder(hand);
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Current Hand: " + spacedString(handBuilder.toString()));
+	public static void playHand(String hand) {
+		int score = 0;
+		StringBuilder handBuilder = new StringBuilder(hand);
+		Scanner scanner = new Scanner(System.in);
 
-        while (handBuilder.length() > 0) {
-            System.out.print("Enter a word, or '.' to finish playing this hand: ");
-            String input = scanner.nextLine();
+		while (handBuilder.length() > 0) {
+			System.out.println("Current Hand: " + spacedString(handBuilder.toString()));
+			System.out.print("Enter a word, or '.' to finish playing this hand: ");
+			String input = scanner.nextLine();
 
-            if (".".equals(input)) {
-                break;
-            }
+			if (".".equals(input)) {
+				break;
+			}
 
-            if (isWordInDictionary(input) && isSubsetOfHand(input, handBuilder.toString())) {
-                for (char c : input.toCharArray()) {
-                    int index = handBuilder.indexOf(String.valueOf(c));
-                    if (index != -1) {
-                        handBuilder.deleteCharAt(index);
-                    }
-                }
+			if (isWordInDictionary(input) && isSubsetOfHand(input, handBuilder.toString())) {
+				for (char c : input.toCharArray()) {
+					int index = handBuilder.indexOf(String.valueOf(c));
+					if (index != -1) {
+						handBuilder.deleteCharAt(index);
+					}
+				}
 
-                score += wordScore(input);
-                System.out.println("Current Hand: " + spacedString(handBuilder.toString()));
-                System.out.println("Word score: " + wordScore(input));
-            } else {
-                System.out.println("Invalid word. Please try again.");
-            }
-        }
+				int wordPoints = wordScore(input);
+				score += wordPoints;
+				System.out.println("'" + input + "' earned " + wordPoints + " points. Total: " + score + " points.");
+			} else {
+				System.out.println("Invalid word. Try again.");
+			}
+		}
 
-        System.out.println("End of hand. Total score: " + score + " points");
-    }
-	
+		System.out.println("End of hand. Total score: " + score + " points.");
+	}
+	public static String spacedString(String s) {
+		return s.replaceAll("", " ").trim();
+	}
 
 	// Checks if the input word can be formed using the letters in the hand
 	public static boolean isSubsetOfHand(String word, String hand) {
@@ -146,9 +148,7 @@ public class Scrabble {
 		}
 		return true; // All characters in word are in hand
 	}
-	public static String spacedString(String s) {
-        return s.replaceAll("", " ").trim();
-    }
+
 	// Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
 	// to end the game. If the user enters any other input, writes an error message.
 	public static void playGame() {
@@ -173,6 +173,7 @@ public class Scrabble {
 	}
 
 	public static void main(String[] args) { 
+		testPlayHands();
 		playGame();
 	}
 	
