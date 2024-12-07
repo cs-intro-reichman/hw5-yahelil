@@ -71,7 +71,7 @@ public class Scrabble {
 		if (word.contains("runi")){
 			score += 1000;
 		}
-		System.out.print(word + "earned " + score + " points.");
+		System.out.print(word + " earned " + score + " points.");
 		return score;
 	}
 
@@ -108,6 +108,10 @@ public class Scrabble {
 		while (hand.length() > 0) {
 			System.out.println("Current Hand: " + MyString.spacedString(hand));
 			System.out.println("Enter a word, or '.' to finish playing this hand:");
+			if (in.isEmpty()) {
+				System.out.println("No input available. Exiting hand.");
+				break;
+			}
 			String input = in.readString();
 			while (!isWordInDictionary(input) || !isSubsetOfHand(input, hand)){
 				System.out.println("Current Hand: " + MyString.spacedString(hand));
@@ -171,7 +175,6 @@ public class Scrabble {
 				input = in.readString();
 			}
 			if (input.equals("e")){
-				System.out.println("Goodbye");
 				break;
 			}
 			playHand(createHand());
