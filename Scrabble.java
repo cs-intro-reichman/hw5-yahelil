@@ -2,7 +2,6 @@
  * RUNI version of the Scrabble game.
  */
 public class Scrabble {
-	private static boolean isFirstCall = true;
 	// Note 1: "Class variables", like the five class-level variables declared below,
 	// are global variables that can be accessed by any function in the class. It is
 	// customary to name class variables using capital letters and underline characters.
@@ -32,8 +31,6 @@ public class Scrabble {
 	// Populates the DICTIONARY array with the lowercase version of all the words read
 	// from the WORDS_FILE, and sets NUM_OF_WORDS to the number of words read from the file.
 	public static void init() {
-		// Declares the variable in to refer to an object of type In, and initializes it to represent
-		// the stream of characters coming from the given file. Used for reading words from the file.  
 		In in = new In(WORDS_FILE);
         System.out.println("Loading word list from file...");
         NUM_OF_WORDS = 0;
@@ -104,12 +101,6 @@ public class Scrabble {
 		StringBuilder handBuilder = new StringBuilder(hand);
 		In in = new In(); // Initialize the input stream
 	
-		// Print initial output for the test only once
-		if (isFirstCall) { // Ensure setup only happens once
-			System.out.println("Loading word list from file...");
-			System.out.println("83667 words loaded.");
-			isFirstCall = false; // Set flag to false after the first print
-		}
 		System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
 		System.out.println("Enter a word, or '.' to finish playing this hand:");
 	
