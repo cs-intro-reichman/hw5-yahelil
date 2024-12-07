@@ -1,6 +1,9 @@
 /*
  * RUNI version of the Scrabble game.
  */
+
+import java.util.Scanner;
+
 public class Scrabble {
 	// Note 1: "Class variables", like the five class-level variables declared below,
 	// are global variables that can be accessed by any function in the class. It is
@@ -96,46 +99,39 @@ public class Scrabble {
     // 1. The letters in the word are removed from the hand, which becomes smaller.
     // 2. The user gets the Scrabble points of the entered word.
     // 3. The user is prompted to enter another word, or '.' to end the hand. 
-	public static void playHand(String hand) {
-		int score = 0;
-		StringBuilder handBuilder = new StringBuilder(hand);
-		In in = new In(); // Initialize the input stream
-	
-		System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
-	
-		// Loop to handle user input until the user enters '.'
-		while (handBuilder.length() > 0) {
-			System.out.println("Enter a word, or '.' to finish playing this hand:");
-			String input = in.readString();
-			
-			if (input.equals(".")) {
-				// Exit if the user enters '.'
-				break;
-			}
-	
-			// Check if the word is valid and can be formed from the hand
-			if (isWordInDictionary(input) && isSubsetOfHand(input, handBuilder.toString())) {
-				// Remove letters used in the input word from the hand
-				for (char c : input.toCharArray()) {
-					int index = handBuilder.indexOf(String.valueOf(c));
-					if (index != -1) {
-						handBuilder.deleteCharAt(index);
-					}
-				}
-	
-				// Update the score with the word score
-				score += wordScore(input);
-			} else {
-				System.out.println("Invalid word. Please try again.");
-			}
-	
-			// Print the current state of the hand after each valid play
-			System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
-		}
-	
-		// Print the final total score when the hand ends
-		System.out.println("End of hand. Total score: " + score + " points");
-	}
+    public static void playHand(String hand) {
+        int score = 0;
+        StringBuilder handBuilder = new StringBuilder(hand);
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Current Hand: " + spacedString(handBuilder.toString()));
+
+        while (handBuilder.length() > 0) {
+            System.out.print("Enter a word, or '.' to finish playing this hand: ");
+            String input = scanner.nextLine();
+
+            if (".".equals(input)) {
+                break;
+            }
+
+            if (isWordInDictionary(input) && isSubsetOfHand(input, handBuilder.toString())) {
+                for (char c : input.toCharArray()) {
+                    int index = handBuilder.indexOf(String.valueOf(c));
+                    if (index != -1) {
+                        handBuilder.deleteCharAt(index);
+                    }
+                }
+
+                score += wordScore(input);
+                System.out.println("Current Hand: " + spacedString(handBuilder.toString()));
+                System.out.println("Word score: " + wordScore(input));
+            } else {
+                System.out.println("Invalid word. Please try again.");
+            }
+        }
+
+        System.out.println("End of hand. Total score: " + score + " points");
+    }
 	
 
 	// Checks if the input word can be formed using the letters in the hand
@@ -150,7 +146,9 @@ public class Scrabble {
 		}
 		return true; // All characters in word are in hand
 	}
-
+	public static String spacedString(String s) {
+        return s.replaceAll("", " ").trim();
+    }
 	// Plays a Scrabble game. Prompts the user to enter 'n' for playing a new hand, or 'e'
 	// to end the game. If the user enters any other input, writes an error message.
 	public static void playGame() {
@@ -175,7 +173,6 @@ public class Scrabble {
 	}
 
 	public static void main(String[] args) { 
-		testPlayHands();
 		playGame();
 	}
 	
