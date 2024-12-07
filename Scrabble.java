@@ -64,13 +64,14 @@ public class Scrabble {
 		for(int i = 0; i<word.length(); i++){
 			score += SCRABBLE_LETTER_VALUES[word.charAt(i) - 'a'];
 		}
+		score = score * word.length();
 		if (word.length() == HAND_SIZE){
 			score += 50;
 		}
-		if (isSubsetOfHand(word, "runi")){
+		if (isSubsetOfHand("runi", word)){
 			score += 1000;
 		}
-		score = score * word.length();
+		
 		System.out.print(word + " earned " + score + " points.");
 		return score;
 	}
@@ -100,22 +101,33 @@ public class Scrabble {
     // 2. The user gets the Scrabble points of the entered word.
     // 3. The user is prompted to enter another word, or '.' to end the hand. 
 	public static void playHand(String hand) {
-		int n = hand.length();
+		StringBuilder handBuilder = new StringBuilder(hand);
 		int score = 0;
 		// Declares the variable in to refer to an object of type In, and initializes it to represent
 		// the stream of characters coming from the keyboard. Used for reading the user's inputs.   
 		In in = new In();
-		while (hand.length() > 0) {
-			System.out.println("Current Hand: " + MyString.spacedString(hand));
+		while (handBuilder.length() > 0) {
+			System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
 			System.out.println("Enter a word, or '.' to finish playing this hand:");
 			if (in.isEmpty()) {
 				System.out.println("No input available. Exiting hand.");
 				break;
 			}
+
 			String input = in.readString();
-			while (!isWordInDictionary(input) || !isSubsetOfHand(input, hand)){
-				System.out.println("Current Hand: " + MyString.spacedString(hand));
+
+			if (input.equals(".")) {
+				break;
+			}
+
+			while (!isWordInDictionary(input) || !isSubsetOfHand(input, handBuilder.toString())){
+				System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
 				System.out.println("Enter a word, or '.' to finish playing this hand:");
+				input = in.readString();
+				if (in.isEmpty()) {
+					System.out.println("No input available. Exiting hand.");
+					break;
+				}
 				input = in.readString();
 				if (input.equals(".")){
 					break;
@@ -123,21 +135,22 @@ public class Scrabble {
 				if (!isWordInDictionary(input)){
 					System.out.println("No such word in the dictionary. Try again.");
 				}
-				if (!isSubsetOfHand(input, hand)){
+				if (!isSubsetOfHand(input, handBuilder.toString())){
 					System.out.println("Invalid word. Try again.");
 				}	
-				input = in.readString();
 			}
 			if (input.equals(".")){
 				break;
 			}		
 			for (char c : input.toCharArray()) {
-				int index = hand.indexOf(c);
-				hand = hand.substring(0, index) + hand.substring(index + 1);
+				int index = handBuilder.indexOf(String.valueOf(c));
+				if (index != -1) {
+					handBuilder.deleteCharAt(index);
+				}
 			}
 			score += wordScore(input);
-			HAND_SIZE -= input.length();
 			System.out.println(" Score: " + score + " points");
+			HAND_SIZE = handBuilder.length();
 		}
 		if (hand.length() == 0) {
 	        System.out.println("Ran out of letters. Total score: " + score + " points");
