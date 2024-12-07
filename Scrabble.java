@@ -72,7 +72,6 @@ public class Scrabble {
 			score += 1000;
 		}
 		
-		System.out.print(word + " earned " + score + " points.");
 		return score;
 	}
 
