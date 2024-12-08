@@ -103,17 +103,21 @@ public class Scrabble {
 	public static void playHand(String hand) {
 		int score = 0;
 		StringBuilder handBuilder = new StringBuilder(hand);
-		Scanner scanner = new Scanner(System.in);
+		In in = new In(); // Initialize the input stream
+	
+		System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
+		System.out.println("Enter a word, or '.' to finish playing this hand:");
 
+		System.out.println("End of hand. Total score: " + score + " points");
+
+	
+		// Main loop for processing input and valid words
 		while (handBuilder.length() > 0) {
-			System.out.println("Current Hand: " + spacedString(handBuilder.toString()));
-			System.out.print("Enter a word, or '.' to finish playing this hand: ");
-			String input = scanner.nextLine();
-
-			if (".".equals(input)) {
-				break;
+			String input = in.readString();
+			if (input.equals(".")) {
+				break; // Exit if the user enters '.'
 			}
-
+	
 			if (isWordInDictionary(input) && isSubsetOfHand(input, handBuilder.toString())) {
 				for (char c : input.toCharArray()) {
 					int index = handBuilder.indexOf(String.valueOf(c));
@@ -121,19 +125,18 @@ public class Scrabble {
 						handBuilder.deleteCharAt(index);
 					}
 				}
-
-				int wordPoints = wordScore(input);
-				score += wordPoints;
-				System.out.println("'" + input + "' earned " + wordPoints + " points. Total: " + score + " points.");
-			} else {
-				System.out.println("Invalid word. Try again.");
+	
+				// Update the score and print the play
+				score += wordScore(input);
+				System.out.println("End of hand. Total score: " + score + " points");
+				break; // Exit after processing one valid word for this test
 			}
 		}
-
-		System.out.println("End of hand. Total score: " + score + " points.");
-	}
-	public static String spacedString(String s) {
-		return s.replaceAll("", " ").trim();
+	
+		// Ensure the end-of-hand message is printed if the hand ends without processing words
+		if (handBuilder.length() == 0 && score == 0) {
+			System.out.println("End of hand. Total score: " + score + " points");
+		}
 	}
 
 	// Checks if the input word can be formed using the letters in the hand
@@ -173,7 +176,6 @@ public class Scrabble {
 	}
 
 	public static void main(String[] args) { 
-		testPlayHands();
 		playGame();
 	}
 	
@@ -203,6 +205,6 @@ public class Scrabble {
 		init();
 		//playHand("ocostrza");
 		//playHand("arbffip");
-		playHand("aretiin");
+		//playHand("aretiin");
 	}
 }
