@@ -114,8 +114,13 @@ public class Scrabble {
 			if (input.equals(".")) {
 				break;
 			}
-	
-			if (isWordInDictionary(input) && isSubsetOfHand(input, handBuilder.toString())) {
+			if (!isWordInDictionary(input)){
+				System.out.println("No such word in the dictionary. Try again.");
+			}
+			else if (!isSubsetOfHand(input, handBuilder.toString())){
+				System.out.println("Invalid word. Try again.");
+			}
+			else{
 				for (char c : input.toCharArray()) {
 					int index = handBuilder.indexOf(String.valueOf(c));
 					if (index != -1) {
@@ -125,7 +130,6 @@ public class Scrabble {
 				to_add = wordScore(input);
 				score += to_add;
 				System.out.println("" + input + " earned " + to_add + " points. Score: " + score);
-
 			}
 		}
 	
