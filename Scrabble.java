@@ -102,20 +102,17 @@ public class Scrabble {
 
 	public static void playHand(String hand) {
 		int score = 0;
+		int to_add;
 		StringBuilder handBuilder = new StringBuilder(hand);
 		In in = new In(); // Initialize the input stream
 	
-		System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
-		System.out.println("Enter a word, or '.' to finish playing this hand:");
-
-		System.out.println("End of hand. Total score: " + score + " points");
-
-	
 		// Main loop for processing input and valid words
 		while (handBuilder.length() > 0) {
+			System.out.println("Current Hand: " + MyString.spacedString(handBuilder.toString()));
+			System.out.println("Enter a word, or '.' to finish playing this hand:");
 			String input = in.readString();
 			if (input.equals(".")) {
-				break; // Exit if the user enters '.'
+				break;
 			}
 	
 			if (isWordInDictionary(input) && isSubsetOfHand(input, handBuilder.toString())) {
@@ -125,16 +122,15 @@ public class Scrabble {
 						handBuilder.deleteCharAt(index);
 					}
 				}
-	
-				// Update the score and print the play
-				score += wordScore(input);
-				System.out.println("End of hand. Total score: " + score + " points");
-				break; // Exit after processing one valid word for this test
+				to_add = wordScore(input);
+				score += to_add;
+				System.out.println("" + input + " earned " + to_add + " points. Score: " + score);
+
 			}
 		}
 	
 		// Ensure the end-of-hand message is printed if the hand ends without processing words
-		if (handBuilder.length() == 0 && score == 0) {
+		if (handBuilder.length() == 0 || score == 0) {
 			System.out.println("End of hand. Total score: " + score + " points");
 		}
 	}
