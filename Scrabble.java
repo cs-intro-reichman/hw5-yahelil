@@ -114,11 +114,11 @@ public class Scrabble {
 			if (input.equals(".")) {
 				break;
 			}
-			if (!isWordInDictionary(input)){
-				System.out.println("No such word in the dictionary. Try again.");
-			}
-			else if (!isSubsetOfHand(input, handBuilder.toString())){
+			if (!isSubsetOfHand(input, handBuilder.toString())){
 				System.out.println("Invalid word. Try again.");
+			}
+			else if (!isWordInDictionary(input)){
+				System.out.println("No such word in the dictionary. Try again.");
 			}
 			else{
 				for (char c : input.toCharArray()) {
@@ -133,10 +133,8 @@ public class Scrabble {
 			}
 		}
 	
-		// Ensure the end-of-hand message is printed if the hand ends without processing words
-		if (handBuilder.length() == 0 || score == 0) {
-			System.out.println("End of hand. Total score: " + score + " points");
-		}
+
+		System.out.println("End of hand. Total score: " + score + " points");
 	}
 
 	// Checks if the input word can be formed using the letters in the hand
