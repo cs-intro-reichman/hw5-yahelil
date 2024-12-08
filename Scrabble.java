@@ -129,7 +129,7 @@ public class Scrabble {
 				}
 				to_add = wordScore(input);
 				score += to_add;
-				System.out.println("" + input + " earned " + to_add + " points. Score: " + score);
+				System.out.println("" + input + " earned " + to_add + " points. Score: " + score + " points");
 			}
 		}
 	
